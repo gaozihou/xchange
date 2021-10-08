@@ -12,4 +12,4 @@ crc32c_br.o: crc32c_br.c crc32c_br.h
 
 
 clean:
-	rm xchange *.o
+	rm -f xchange *.o

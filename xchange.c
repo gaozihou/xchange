@@ -162,6 +162,10 @@ const part_info_t part_info[] =
   { 0x047e4093, 0x0fffffff,  6, "xczu27" },
   { 0x047e0093, 0x0fffffff,  6, "xczu28" },
   { 0x047e2093, 0x0fffffff,  6, "xczu29" },
+  
+  // Newer version Vivado new ID codes
+  { 0x04a43093, 0x0fffffff,  6, "xczu2cg" },
+  { 0x04a42093, 0x0fffffff,  6, "xczu3cg" },
 };
 
 
@@ -431,6 +435,15 @@ static void munge_b_header(uint32_t len)
 	printf("package: %s\n", package_name);
     }
 
+  // Newer version Vivado part number has xc
+  int original_header_has_xc = 0;
+  if (strncmp(base_part_num, "xc", 2) == 0)
+    {
+      if (debug)
+	printf("original header has \"xc\"\n");
+      original_header_has_xc = 1;
+    }
+
   if (partnum_str)
     {
       strcpy(base_part_num, partnum_str);
@@ -451,7 +464,7 @@ static void munge_b_header(uint32_t len)
   if (! package_name[0])
     fatal(3, "must specify package");
 
-  if (strncmp(base_part_num, "xc", 2) == 0)
+  if (strncmp(base_part_num, "xc", 2) == 0 && original_header_has_xc == 0)
     {
       if (debug)
 	printf("removing \"xc\"\n");
